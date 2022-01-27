@@ -11,8 +11,6 @@ class Player extends Physics.Arcade.Sprite {
         super(scene, 200, 400, 'player');
 
         this.enemy = enemy
-        console.log(this.enemy)
-
         scene.add.existing(this)
         scene.physics.add.existing(this)
 
@@ -23,6 +21,7 @@ class Player extends Physics.Arcade.Sprite {
         this.timeBetweenShots = 400;
 
         this.scene.physics.add.overlap(this.bullets, this.enemy, this.destroyEnemy, null, this)
+        this.scene.physics.add.overlap(this, this.enemy, this.destroyPlayer, null, this)
     }
 
     update(t,dt) {
@@ -46,6 +45,11 @@ class Player extends Physics.Arcade.Sprite {
     destroyEnemy(player, enemy) {
         console.log('destroy')
         enemy.destroy()
+        console.log(this.enemy.children.entries)
+    }
+
+    destroyPlayer (player, enemy) {
+        console.log('destroy')
     }
 }
 

@@ -1,5 +1,5 @@
 import Player from "../Player/Player";
-import Enemy from "../Enemy/Enemy";
+import EnemiesGroup from "../Enemy/EnemiesGroup";
 
 class Space extends Phaser.GameObjects.Container {
   player
@@ -19,6 +19,14 @@ class Space extends Phaser.GameObjects.Container {
 
   update(t,dt) {
     this.player.update(t, dt)
+    if (this.enemy.children.entries.length <= 0) {
+      this.enemy.children.entries.forEach(element => {
+        element.destroy()
+      });
+      this.enemy.children.entries = []
+      this.enemy.addEnemies()
+      this.enemy.addPhysics()
+    }
   }
 
   initBackground() {
@@ -33,27 +41,10 @@ class Space extends Phaser.GameObjects.Container {
 
 
   initEnemies () {
-    this.enemy = this.scene.physics.add.group({
-      classType: Enemy,
-      key: 'enemy',
-      repeat: 11,
-      setXY: {
-        x:12,
-        y: 0,
-        stepX: 70
-      }
-    })
 
-    this.enemy.children.iterate(el => {
-      el.setBounce(Phaser.Math.FloatBetween(0.4, 0.8))
-      el.setVelocityX(Phaser.Math.Between(-200, 200));
-      el.setVelocityY(Phaser.Math.Between(-200, 200));
-      el.setBounce(1);
-      el.setCollideWorldBounds(true);
-      el.setGravityY(Phaser.Math.Between(-200, 200));
-      el.setGravityX(Phaser.Math.Between(-200, 200));
-      el.setScale(0.5)
-    })
+
+    this.enemy = new EnemiesGroup(this.scene)
+    console.log(this.enemy.children.entries)
 
     console.log(this.enemy)
   }
