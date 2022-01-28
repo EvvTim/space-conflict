@@ -20,7 +20,9 @@ class MainManuScene extends Scene {
 
     initButtons() {
         const { width, height } = this.scale
-        this.startButton = this.add.image(width * 0.5, height * 0.5, START_BUTTON).setInteractive();
+        const x = width * 0.5
+        const y = height * 0.5
+        this.startButton = this.add.image(x, y, START_BUTTON).setInteractive();
         this.startButton.on('pointerdown', () => {
             this.scene.start(MAIN_SCENE);
         });

@@ -1,6 +1,6 @@
 import {Physics} from 'phaser'
 import Bullet from "../Bullet/Bullet";
-import {HEALTH_BAR_GREEN, PLAYER} from "../../scenes/loading-scene";
+import {PLAYER} from "../../scenes/loading-scene";
 import HealthBarGreen from "../HealthBar/HealthBarGreen";
 import HealthBarRed from "../HealthBar/HealthBarRed";
 
@@ -24,20 +24,13 @@ class Player extends Physics.Arcade.Sprite {
     }
 
     update(t, dt) {
-        this.initHealthBarPosition()
         this.controls(t, dt)
         this.healthBarGreen.setScale(this.health / this.maxHealth, 0.5)
-        console.log(this.healthBarRed.scaleX)
-
-
-
-        console.log(this.health)
+        this.initHealthBarPosition()
     }
 
     controls(t) {
         this.x = this.scene.input.mousePointer.x
-        // this.y = this.scene.input.mousePointer.y
-
         if (this.scene.input.mousePointer.isDown && t > this.lastFited) {
             const bullet = new Bullet(this.scene)
             bullet.fire(this.x, this.y)
@@ -50,24 +43,27 @@ class Player extends Physics.Arcade.Sprite {
         return this.scene.input.mousePointer.x - 50
     }
 
-    // healthBarYPosition() {
-    //     return this.scene.input.mousePointer.y + 50
-    // }
+    healthBarYPosition() {
+        return this.scene.input.mousePointer.y + 50
+    }
 
     initHealthBarPosition() {
         const x = this.healthBarXPosition()
         const y = this.scene.game.config.height - 50
 
-        this.healthBarGreen.update(x,y)
-        this.healthBarRed.update(x,y)
+        this.healthBarGreen.update(x, y)
+        this.healthBarRed.update(x, y)
     }
 
-    destroyEnemy(player, enemy) {
-        enemy.destroy()
-    }
+    // destroyEnemy(player, enemy) {
+    //     enemy.destroy()
+    //     enemy.healthBarGreen.destroy()
+    //     enemy.healthBarRed.destroy()
+    //
+    // }
 
     initOverlap() {
-        this.scene.physics.add.overlap(this.bullets, this.enemy, this.destroyEnemy, null, this)
+        // this.scene.physics.add.overlap(this.bullets, this.enemy, this.destroyEnemy, null, this)
         this.scene.physics.add.overlap(this, this.enemy, this.destroyPlayer, null, this)
     }
 
@@ -81,8 +77,8 @@ class Player extends Physics.Arcade.Sprite {
     }
 
     initHealthBar() {
-        this.healthBarGreen = new HealthBarGreen(this.scene)
-        this.healthBarRed = new HealthBarRed(this.scene)
+        this.healthBarGreen = new HealthBarGreen(this.scene, this.healthBarXPosition(), this.healthBarYPosition())
+        this.healthBarRed = new HealthBarRed(this.scene, this.healthBarXPosition(), this.healthBarYPosition())
     }
 }
 

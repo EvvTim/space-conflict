@@ -1,9 +1,8 @@
 import {Physics} from "phaser";
 
 class HealthBar extends Physics.Arcade.Sprite {
-    y
-    constructor(scene, texture) {
-        super(scene, 800, 400, texture);
+    constructor(scene,x, y, texture) {
+        super(scene, x, y, texture);
         this.scene = scene;
 
         this.scene.add.existing(this);

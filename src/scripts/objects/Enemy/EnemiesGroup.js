@@ -1,9 +1,14 @@
 import {ENEMY} from "../../scenes/loading-scene";
+import EnemySprite from "./EnemySprite";
 
 class EnemiesGroup extends Phaser.Physics.Arcade.Group {
     enemies
     constructor(scene) {
-        super(scene.physics.world, scene);
+        super(scene.physics.world, scene, {
+            classType: EnemySprite,
+            maxSize: 10,
+            runChildUpdate: true
+        });
 
         this.addEnemies()
         this.addPhysics()
@@ -28,9 +33,9 @@ class EnemiesGroup extends Phaser.Physics.Arcade.Group {
             el.setGravityY(Phaser.Math.Between(-200, 200));
             el.setGravityX(Phaser.Math.Between(-200, 200));
             el.setScale(0.5)
+            el.initHealthBar()
         });
     }
-
 }
 
 export default EnemiesGroup;

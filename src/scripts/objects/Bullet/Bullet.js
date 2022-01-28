@@ -34,7 +34,6 @@ class Bullet extends Physics.Arcade.Sprite{
         this.speed = 1000
         this.lifespan = 1000
     }
-
 }
 
 export default Bullet
