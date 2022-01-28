@@ -1,52 +1,68 @@
 import Player from "../Player/Player";
 import EnemiesGroup from "../Enemy/EnemiesGroup";
+import HealthBar from "../HealthBar/HealthBar";
+import {BACKGROUND, DEAD_SCENE, SPACE_SCENE} from "../../scenes/loading-scene";
 
-class Space extends Phaser.GameObjects.Container {
+class Space extends Phaser.Scene {
   player
   enemy
-
+  healthBar
+  playerPositionY
   constructor(scene) {
-    super(scene, 0, 0);
+    super('Space');
     this.scene = scene;
-    this.create();
-  }
 
-  create() {
     this.initBackground()
     this.initEnemies()
     this.initPlayer()
+
+    this.scene.physics.add.overlap(this.player, this.enemy, this.destroyPlayer, null, this)
+
   }
 
   update(t,dt) {
     this.player.update(t, dt)
-    if (this.enemy.children.entries.length <= 0) {
-      this.enemy.children.entries.forEach(element => {
-        element.destroy()
-      });
-      this.enemy.children.entries = []
-      this.enemy.addEnemies()
-      this.enemy.addPhysics()
-    }
+    this.respawnEnemy()
   }
 
   initBackground() {
-    this.background = this.scene.add.image(0, 0, 'background');
+    this.background = this.scene.add.image(0, 0, BACKGROUND);
     this.background.setOrigin(0, 0);
     this.background.setDisplaySize(this.scene.game.config.width, this.scene.game.config.height);
   }
 
   initPlayer () {
-    this.player = new Player(this.scene, this.enemy)
+    this.initPlayerPosition()
+    this.player = new Player(this.scene,0, this.playerPositionY , this.enemy)
   }
 
-
   initEnemies () {
-
-
     this.enemy = new EnemiesGroup(this.scene)
-    console.log(this.enemy.children.entries)
+    this.healthBar = new HealthBar(this.scene)
+  }
 
-    console.log(this.enemy)
+  destroyPlayer () {
+    this.player.health -= 0.5
+
+    if (this.player.health <= 0) {
+      this.scene.scene.start(DEAD_SCENE)
+      this.scene.scene.stop(SPACE_SCENE)
+    }
+  }
+
+  getEnemyXPosition () {
+     this.enemy.children.entries.map(el => console.log(el.x))
+  }
+
+  respawnEnemy () {
+    if (this.enemy.children.entries.length <= 0) {
+      this.enemy.addEnemies()
+      this.enemy.addPhysics()
+    }
+  }
+
+  initPlayerPosition () {
+     this.playerPositionY = this.scene.game.config.height - 100
   }
 }
 

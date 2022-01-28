@@ -1,19 +1,19 @@
 import {Scene} from "phaser";
 import Space from "../../objects/Space/Space";
-
 class MainScene extends Scene {
-    background;
+    space;
 
     constructor() {
         super('main-scene');
     }
 
     create() {
-        this.background = new Space(this);
+        this.space = new Space(this);
+        console.log(this.space.player)
     }
 
     update(t,td) {
-        this.background.update(t,td)
+        this.space.update(t,td)
     }
 }
 

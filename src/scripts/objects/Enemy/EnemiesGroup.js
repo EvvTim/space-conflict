@@ -1,20 +1,20 @@
+import {ENEMY} from "../../scenes/loading-scene";
+
 class EnemiesGroup extends Phaser.Physics.Arcade.Group {
     enemies
-
-    constructor(scene,) {
+    constructor(scene) {
         super(scene.physics.world, scene);
 
         this.addEnemies()
         this.addPhysics()
     }
-
     create(x, y, key, frame, visible, active) {
         return super.create(x, y, key, frame, visible, active);
     }
 
     addEnemies() {
         for (let i = 0; i < 10; i++) {
-            this.enemies = this.create(i * Phaser.Math.Between(0, 1000), Phaser.Math.Between(0, 1000), 'enemy');
+            this.enemies = this.create(i * Phaser.Math.Between(0, 200), Phaser.Math.Between(0, 200), ENEMY);
         }
     }
 
