@@ -3,20 +3,14 @@ import EnemiesGroup from "../Enemy/EnemiesGroup";
 import {BACKGROUND, DEAD_SCENE, SPACE_SCENE} from "../../scenes/loading-scene";
 
 class Space extends Phaser.Scene {
-    player
-    enemy
-    playerPositionY
-
     constructor(scene) {
         super('Space');
         this.scene = scene;
 
         this.initBackground()
-        this.initEnemies()
+        this.initEnemies(17)
         this.initPlayer()
-
-        this.scene.physics.add.overlap(this.player, this.enemy, this.destroyPlayer, null, this)
-        this.scene.physics.add.overlap(this.player.bullets, this.enemy, this.destroyEnemy, null, this)
+        this.addOverlap()
 
         console.log(this.enemy)
     }
@@ -38,8 +32,8 @@ class Space extends Phaser.Scene {
         this.player = new Player(this.scene, 0, this.playerPositionY, this.enemy)
     }
 
-    initEnemies() {
-        this.enemy = new EnemiesGroup(this.scene)
+    initEnemies(numberOfEnemies) {
+        this.enemy = new EnemiesGroup(this.scene, numberOfEnemies)
     }
 
     destroyPlayer() {
@@ -76,6 +70,11 @@ class Space extends Phaser.Scene {
 
     initPlayerPosition() {
         this.playerPositionY = this.scene.game.config.height - 100
+    }
+
+    addOverlap() {
+        this.scene.physics.add.overlap(this.player, this.enemy, this.destroyPlayer, null, this)
+        this.scene.physics.add.overlap(this.player.bullets, this.enemy, this.destroyEnemy, null, this)
     }
 }
 

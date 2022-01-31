@@ -4,10 +4,6 @@ import HealthBarGreen from "../HealthBar/HealthBarGreen";
 import HealthBarRed from "../HealthBar/HealthBarRed";
 
 class EnemySprite extends Physics.Arcade.Sprite {
-    healthBarGreen
-    healthBarRed
-    x
-    y
     constructor(scene) {
         super(scene, 0, 0, ENEMY);
         this.initEnemyPosition()

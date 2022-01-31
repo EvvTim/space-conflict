@@ -1,8 +1,6 @@
 import {Scene} from "phaser";
 import Space from "../../objects/Space/Space";
 class MainScene extends Scene {
-    space;
-
     constructor() {
         super('main-scene');
     }

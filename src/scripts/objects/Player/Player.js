@@ -5,12 +5,6 @@ import HealthBarGreen from "../HealthBar/HealthBarGreen";
 import HealthBarRed from "../HealthBar/HealthBarRed";
 
 class Player extends Physics.Arcade.Sprite {
-    bullets
-    lastFited
-    timeBetweenShots
-    enemy
-    healthBarGreen
-
     constructor(scene, x, y, enemy) {
         super(scene, x, y, PLAYER);
         this.enemy = enemy
