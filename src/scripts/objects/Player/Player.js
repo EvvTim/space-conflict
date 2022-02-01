@@ -1,20 +1,18 @@
 import {Physics} from 'phaser'
 import Bullet from "../Bullet/Bullet";
-import {PLAYER} from "../../scenes/loading-scene";
 import HealthBarGreen from "../HealthBar/HealthBarGreen";
 import HealthBarRed from "../HealthBar/HealthBarRed";
+import enums from "../../../enums";
 
 class Player extends Physics.Arcade.Sprite {
     constructor(scene, x, y, enemy) {
-        super(scene, x, y, PLAYER);
+        super(scene, x, y, enums.PLAYER);
         this.enemy = enemy
 
         scene.add.existing(this)
         scene.physics.add.existing(this)
 
-        this.playerConfig()
-        this.initOverlap()
-        this.initHealthBar()
+        this.playerConfig().initOverlap().initHealthBar()
     }
 
     update(t, dt) {
@@ -59,6 +57,8 @@ class Player extends Physics.Arcade.Sprite {
     initOverlap() {
         // this.scene.physics.add.overlap(this.bullets, this.enemy, this.destroyEnemy, null, this)
         this.scene.physics.add.overlap(this, this.enemy, this.destroyPlayer, null, this)
+
+        return this
     }
 
     playerConfig() {
@@ -68,11 +68,15 @@ class Player extends Physics.Arcade.Sprite {
         this.timeBetweenShots = 400;
         this.health = 100 / 2;
         this.maxHealth = 100;
+
+        return this
     }
 
     initHealthBar() {
         this.healthBarGreen = new HealthBarGreen(this.scene, this.healthBarXPosition(), this.healthBarYPosition())
         this.healthBarRed = new HealthBarRed(this.scene, this.healthBarXPosition(), this.healthBarYPosition())
+
+        return this
     }
 }
 

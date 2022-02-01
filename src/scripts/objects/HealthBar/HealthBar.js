@@ -7,10 +7,7 @@ class HealthBar extends Physics.Arcade.Sprite {
 
         this.scene.add.existing(this);
 
-        this.setOrigin(0, 1);
-        this.setDisplaySize(100, 10);
-        this.setDepth(1);
-        this.setScale(0.5, 0.5);
+        this.setOrigin(0, 1).setDisplaySize(100, 10).setDepth(1).setScale(0.5, 0.5);
     }
 
     update(x,y) {

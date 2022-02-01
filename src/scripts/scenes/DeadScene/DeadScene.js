@@ -1,8 +1,8 @@
-import {DEAD_SCENE} from "../loading-scene";
+import enums from "../../../enums";
 
 class DeadScene extends Phaser.Scene {
   constructor() {
-    super(DEAD_SCENE);
+    super(enums.DEAD_SCENE);
   }
 
   create() {

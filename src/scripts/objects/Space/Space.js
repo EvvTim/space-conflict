@@ -1,47 +1,48 @@
 import Player from "../Player/Player";
 import EnemiesGroup from "../Enemy/EnemiesGroup";
-import {BACKGROUND, DEAD_SCENE, SPACE_SCENE} from "../../scenes/loading-scene";
+import enums from "../../../enums";
 
 class Space extends Phaser.Scene {
     constructor(scene) {
         super('Space');
         this.scene = scene;
 
-        this.initBackground()
-        this.initEnemies(17)
-        this.initPlayer()
-        this.addOverlap()
+        this.initBackground().initEnemies(17).initPlayer().addOverlap()
 
         console.log(this.enemy)
     }
 
     update(t, dt) {
         this.player.update(t, dt)
-        this.initEnemyHealthBarPosition()
-        this.respawnEnemy()
+        this.initEnemyHealthBarPosition().respawnEnemy()
     }
 
     initBackground() {
-        this.background = this.scene.add.image(0, 0, BACKGROUND);
-        this.background.setOrigin(0, 0);
-        this.background.setDisplaySize(this.scene.game.config.width, this.scene.game.config.height);
+        this.background = this.scene.add.image(0, 0, enums.BACKGROUND);
+        this.background.setOrigin(0, 0).setDisplaySize(this.scene.game.config.width, this.scene.game.config.height);
+
+        return this
     }
 
     initPlayer() {
         this.initPlayerPosition()
         this.player = new Player(this.scene, 0, this.playerPositionY, this.enemy)
+
+        return this
     }
 
     initEnemies(numberOfEnemies) {
         this.enemy = new EnemiesGroup(this.scene, numberOfEnemies)
+
+        return this
     }
 
     destroyPlayer() {
         this.player.health -= 0.5
 
         if (this.player.health <= 0) {
-            this.scene.scene.start(DEAD_SCENE)
-            this.scene.scene.stop(SPACE_SCENE)
+            this.scene.scene.start(enums.DEAD_SCENE)
+            this.scene.scene.stop(enums.SPACE_SCENE)
         }
     }
 
@@ -59,13 +60,16 @@ class Space extends Phaser.Scene {
     initEnemyHealthBarPosition() {
         this.enemy.children.entries.map(e => e.healthBarGreen.update(e.x - 50, e.y - 50))
         this.enemy.children.entries.map(e => e.healthBarRed.update(e.x - 50, e.y -50))
+
+        return this
     }
 
     respawnEnemy() {
         if (this.enemy.children.entries.length <= 0) {
-            this.enemy.addEnemies()
-            this.enemy.addPhysics()
+            this.enemy.addEnemies().addPhysics()
         }
+
+        return this
     }
 
     initPlayerPosition() {
@@ -75,6 +79,8 @@ class Space extends Phaser.Scene {
     addOverlap() {
         this.scene.physics.add.overlap(this.player, this.enemy, this.destroyPlayer, null, this)
         this.scene.physics.add.overlap(this.player.bullets, this.enemy, this.destroyEnemy, null, this)
+
+        return this
     }
 }
 
